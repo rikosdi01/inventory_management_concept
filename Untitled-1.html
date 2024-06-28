@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Styled List</title>
+    <title>Styled List with Detailed Content</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,7 +16,7 @@
             position: fixed; /* Make it stick/fixed */
             top: 0; /* Stay on top */
             width: 100%; /* Full width */
-            height: 7%;
+            height: 7vh;
             z-index: 1000; /* Make sure it stays on top of other content */
         }
 
@@ -25,8 +25,9 @@
             float: right;
             display: block;
             color: white;
+            font-weight: bold;
             text-align: center;
-            padding: 14px 20px;
+            padding: 25px;
             text-decoration: none;
         }
 
@@ -36,20 +37,37 @@
             color: black;
         }
 
-        ul.custom-list {
-            list-style-type: square;
-            /* Change bullet type */
-            padding-left: 20px;
-            /* Indentation */
+        /* Styled list */
+        .custom-list {
+            list-style: none; /* Remove default list style */
+            padding: 0;
+            margin-top: 20px;
         }
 
-        ul.custom-list li {
-            margin-bottom: 5px;
-            /* Space between items */
+        .custom-list li {
+            display: table;
+            width: 100%;
+            background-color: #f2f2f2;
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+            cursor: pointer; /* Change cursor to pointer to indicate clickable */
         }
 
-        .content {
-            padding: 80px 20px; /* Add padding to avoid content being hidden behind the navbar */
+        .custom-list li:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Detailed content */
+        .detailed-content {
+            display: none;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 3px solid #EB1E26;
+            margin-top: 5px;
+        }
+
+        .custom-list li.active .detailed-content {
+            display: block;
         }
     </style>
 </head>
@@ -66,13 +84,25 @@
         <h1>Welcome to My Website</h1>
         <p>This is a simple top navigation bar example.</p>
 
-        <h2>Styled List Example</h2>
+        <h2>Styled List Example with Detailed Content</h2>
         <ul class="custom-list">
-            <li>Item 1</li>
-            <li>Item 2</li>
-            <li>Item 3</li>
+            <li onclick="toggleDetails(this)">As Kick Stater
+                <div class="detailed-content">
+                    <p>As Kick Stater Beat</p>
+                    <p>As Kick Stater Mio</p>
+                </div>
+            </li>
+            <li onclick="toggleDetails(this)">As Pully</li>
+            <li onclick="toggleDetails(this)">Botol Klep</li>
         </ul>
     </div>
+
+    <script>
+        function toggleDetails(item) {
+            var details = item.querySelector('.detailed-content');
+            item.classList.toggle('active');
+        }
+    </script>
 </body>
 
 </html>
