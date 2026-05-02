@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Category List - RIKO Parts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        .navbar {
+            overflow: hidden;
+            background-color: #EB1E26;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 7vh;
+            z-index: 1000;
+        }
+
+        .navbar a,
+        .navbar button {
+            float: right;
+            display: block;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            padding: 25px;
+            text-decoration: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .navbar a:hover,
+        .navbar button:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .content {
+            margin-top: 8vh;
+            padding: 20px;
+        }
+
+        .category-list {
+            max-width: 600px;
+            margin: auto;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .category-item:last-child {
+            border-bottom: none;
+        }
+
+        .edit-button,
+        .delete-button {
+            background-color: #EB1E26;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .edit-button:hover,
+        .delete-button:hover {
+            background-color: #d01720;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <button onclick="window.location.href='addItem.html'">Add Item</button>
+        <button onclick="addNewCategory()">Add Category</button>
+        <a href="itemList.html">Item List</a>
+    </div>
+
+    <div class="content">
+        <div class="category-list">
+            <h2>Category List</h2>
+            <ul id="categoryList">
+                <!-- Categories will be populated here -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const categories = JSON.parse(localStorage.getItem('categories')) || [];
+
+        function renderCategories() {
+            const categoryList = document.getElementById('categoryList');
+            categoryList.innerHTML = '';
+            categories.forEach((category, index) => {
+                const li = document.createElement('li');
+                li.classList.add('category-item');
+                li.innerHTML = `
+                    <span>${category}</span>
+                    <div>
+                        <button class="edit-button" onclick="editCategory(${index})">Edit</button>
+                        <button class="delete-button" onclick="deleteCategory(${index})">Delete</button>
+                    </div>
+                `;
+                categoryList.appendChild(li);
+            });
+        }
+
+        function addNewCategory() {
+            const newCategory = prompt('Enter new category name:');
+            if (newCategory && !categories.includes(newCategory.trim())) {
+                categories.push(newCategory.trim());
+                localStorage.setItem('categories', JSON.stringify(categories));
+                renderCategories();
+                alert('Category added!');
+            } else {
+                alert('Category already exists or is empty!');
+            }
+        }
+
+        function editCategory(index) {
+            const newCategory = prompt('Edit category name:', categories[index]);
+            if (newCategory && !categories.includes(newCategory.trim())) {
+                categories[index] = newCategory.trim();
+                localStorage.setItem('categories', JSON.stringify(categories));
+                renderCategories();
+                alert('Category updated!');
+            } else {
+                alert('Category already exists or is empty!');
+            }
+        }
+
+        function deleteCategory(index) {
+            if (confirm(`Are you sure you want to delete "${categories[index]}"?`)) {
+                categories.splice(index, 1);
+                localStorage.setItem('categories', JSON.stringify(categories));
+                renderCategories();
+                alert('Category deleted!');
+            }
+        }
+
+        // Initialize category list on page load
+        document.addEventListener('DOMContentLoaded', renderCategories);
+    </script>
+</body>
+
+</html>
